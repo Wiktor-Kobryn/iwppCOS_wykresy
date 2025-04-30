@@ -2,6 +2,8 @@
 using LiveChartsCore;
 using Microsoft.Win32;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 
 namespace IwppCOSwykresy;
@@ -18,6 +20,9 @@ public partial class MainWindow : Window
 
         for (int i = 0; i < seriesCountMax; i++)
             isSeriesChosen.Add(true);
+
+        allCheckboxes = new List<CheckBox> { cbxDane0, cbxDane1, cbxDane2, cbxDane3, cbxDane4, cbxDane5 };
+        isAfterInit = true;
     }
 
     private string textLabelDeltaTime = "Odstęp czasowy pomiarów: ";
@@ -27,9 +32,11 @@ public partial class MainWindow : Window
 
     private int dataToViewStart = 0;
     public List<SeriesCollection> SeriesCollectionRawData { get; set; } = new List<SeriesCollection>();
+    private List<CheckBox> allCheckboxes;
     private List<bool> isSeriesChosen = new List<bool>();
     private double pointSize = 5;
     private int seriesCountMax = 6;
+    private bool isAfterInit = false, isDataLoaded = false;
 
     private void btnLoadFile_Click(object sender, RoutedEventArgs e)
     {
@@ -49,6 +56,7 @@ public partial class MainWindow : Window
             rawData.ReadFromAFile(sourceFileNameCSV);
 
             lblDeltaTime.Content = textLabelDeltaTime + rawData.DeltaTime + "s";
+            isDataLoaded = true;
             UpdateRawChart();
         }
     }
@@ -60,9 +68,73 @@ public partial class MainWindow : Window
         for (int i = 0; i < seriesCountMax; i++)
         {
             if (isSeriesChosen[i])
-                allSeries.AddRange(rawData.GenerateSeries(i, pointSize));
+                allSeries.AddRange(rawData.GenerateSeries(i, pointSize, dataToViewStart));
         }
 
         chartRawData.Series = allSeries;
     }
+
+    private void cbxDane_Click(object sender, RoutedEventArgs e)
+    {
+        if(isDataLoaded)
+        {
+            for (int i = 0; i < allCheckboxes.Count; i++)
+            {
+                isSeriesChosen[i] = allCheckboxes[i].IsChecked ?? false;
+            }
+
+            int checkedCount = isSeriesChosen.Count(x => x);
+
+            if (checkedCount <= 2)
+            {
+                for (int i = 0; i < allCheckboxes.Count; i++)
+                {
+                    if (isSeriesChosen[i])
+                        allCheckboxes[i].IsEnabled = false;
+                }
+            }
+            else
+            {
+                foreach (var cb in allCheckboxes)
+                    cb.IsEnabled = true;
+            }
+
+            UpdateRawChart();
+        }
+        else
+        {
+            foreach (var cb in allCheckboxes)
+                cb.IsEnabled = true;
+        }
+
+    }
+
+
+    private void txtStartValue_PreviewTextInput(object sender, TextCompositionEventArgs e)
+    {
+        e.Handled = !int.TryParse(e.Text, out _);
+    }
+
+    private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (isDataLoaded == false)
+            tbcMainTab.SelectedIndex = 0;
+            
+    }
+
+    private void txtStartValue_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (isAfterInit && isDataLoaded && int.TryParse(txtStartValue.Text, out int value))
+        {
+            if (value < 0)
+                txtStartValue.Text = "0";
+            else if (value > 99)
+                txtStartValue.Text = "99";
+
+            dataToViewStart = value;
+            lblStartTime.Content = "( " + (value * rawData.DeltaTime) + "s )";
+            UpdateRawChart();
+        }
+    }
+
 }

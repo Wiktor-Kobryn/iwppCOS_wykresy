@@ -100,10 +100,10 @@ namespace IwppCOSwykresy
             }
         }
 
-        public IEnumerable<ISeries> GenerateSeries(int index, double pointSize)
+        public IEnumerable<ISeries> GenerateSeries(int index, double pointSize, int startIndex)
         {
             var values = new List<ObservablePoint>();
-            for (int i = 0; i < seriesLength; i++)
+            for (int i = startIndex; i < seriesLength; i++)
                 values.Add(new ObservablePoint(time[i], dataSeries[index][i]));
 
             return new ISeries[]

@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="COS obróbka danych" Height="450" Width="800">
     <Grid>
-        <TabControl>
+        <TabControl x:Name="tbcMainTab" SelectionChanged="tabControl_SelectionChanged">
             <TabItem Header="Plik" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
                 <Grid Background="#FFE5E5E5">
                     <Label x:Name="lblTitle" Content=" Program do obróbki wyników badań uzyskanych z modeli fizycznych agregatów metalurgicznych - COS." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="30" Width="574"/>
@@ -23,14 +23,15 @@
             <TabItem Header="Wykresy surowe">
                 <Grid Background="#FFE5E5E5">
                     <lvc:CartesianChart Margin="10,10,365,123" Background="White" Name="chartRawData"/>
-                    <CheckBox x:Name="cbxDane0" Content="Kanał 1" HorizontalAlignment="Left" Margin="698,10,0,0" VerticalAlignment="Top"/>
-                    <CheckBox x:Name="cbxDane1" Content="Kanał 2" HorizontalAlignment="Left" Margin="698,30,0,0" VerticalAlignment="Top"/>
-                    <CheckBox x:Name="cbxDane2" Content="Kanał 3" HorizontalAlignment="Left" Margin="698,52,0,0" VerticalAlignment="Top"/>
-                    <CheckBox x:Name="cbxDane3" Content="Kanał 4" HorizontalAlignment="Left" Margin="698,72,0,0" VerticalAlignment="Top"/>
-                    <CheckBox x:Name="cbxDane4" Content="Kanał 5" HorizontalAlignment="Left" Margin="698,96,0,0" VerticalAlignment="Top"/>
-                    <CheckBox x:Name="cbxDane5" Content="Kanał 6" HorizontalAlignment="Left" Margin="698,116,0,0" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="cbxDane0" Content="Kanał 1" HorizontalAlignment="Left" Margin="698,10,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxDane_Click"/>
+                    <CheckBox x:Name="cbxDane1" Content="Kanał 2" HorizontalAlignment="Left" Margin="698,30,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxDane_Click"/>
+                    <CheckBox x:Name="cbxDane2" Content="Kanał 3" HorizontalAlignment="Left" Margin="698,52,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxDane_Click"/>
+                    <CheckBox x:Name="cbxDane3" Content="Kanał 4" HorizontalAlignment="Left" Margin="698,72,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxDane_Click"/>
+                    <CheckBox x:Name="cbxDane4" Content="Kanał 5" HorizontalAlignment="Left" Margin="698,96,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxDane_Click"/>
+                    <CheckBox x:Name="cbxDane5" Content="Kanał 6" HorizontalAlignment="Left" Margin="698,116,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxDane_Click"/>
                     <Label x:Name="lblDeltaTime_Kopiuj2" Content="Odrzuć pomiary:" HorizontalAlignment="Left" Margin="10,294,0,0" VerticalAlignment="Top" Height="34" Width="102"/>
-                    <TextBox HorizontalAlignment="Left" Margin="117,302,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="56"/>
+                    <TextBox x:Name="txtStartValue" HorizontalAlignment="Left" Margin="117,302,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="56" PreviewTextInput="txtStartValue_PreviewTextInput" TextChanged="txtStartValue_TextChanged" MaxLength="2"/>
+                    <Label x:Name="lblStartTime" Content="(0 s)" HorizontalAlignment="Left" Margin="178,293,0,0" VerticalAlignment="Top" Height="34" Width="102"/>
                 </Grid>
             </TabItem>
             <TabItem HorizontalAlignment="Center" Height="22" Header="Wykresy bezwzględne" VerticalAlignment="Top" Width="143" Margin="0,-1,0,0">
