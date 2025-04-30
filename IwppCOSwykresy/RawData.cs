@@ -3,8 +3,11 @@ using LiveCharts.Wpf;
 using LiveChartsCore;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
+using SkiaSharp;
 using System.Globalization;
 using System.IO;
+using System.Windows.Media;
 
 namespace IwppCOSwykresy
 {
@@ -100,7 +103,7 @@ namespace IwppCOSwykresy
             }
         }
 
-        public IEnumerable<ISeries> GenerateSeries(int index, double pointSize, int startIndex)
+        public IEnumerable<ISeries> GenerateSeries(int index, double pointSize, int startIndex, SKColor color)
         {
             var values = new List<ObservablePoint>();
             for (int i = startIndex; i < seriesLength; i++)
@@ -108,12 +111,14 @@ namespace IwppCOSwykresy
 
             return new ISeries[]
             {
-                    new ScatterSeries<ObservablePoint>
-                    {
-                        Values = values,
-                        Name = dataName + " " + (index + 1),
-                        GeometrySize = pointSize
-                    }
+                new ScatterSeries<ObservablePoint>
+                {
+                    Values = values,
+                    Name = dataName + " " + (index + 1),
+                    GeometrySize = pointSize,
+                    Fill = new SolidColorPaint(color),
+                    Stroke = new SolidColorPaint(color)
+                }
             };
         }
 
