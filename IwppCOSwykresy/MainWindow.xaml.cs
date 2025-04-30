@@ -1,14 +1,8 @@
-﻿using Microsoft.Win32;
-using System.Text;
+﻿using LiveCharts;
+using LiveChartsCore;
+using Microsoft.Win32;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace IwppCOSwykresy;
 
@@ -20,14 +14,22 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+
+
+        for (int i = 0; i < seriesCountMax; i++)
+            isSeriesChosen.Add(true);
     }
 
     private string textLabelDeltaTime = "Odstęp czasowy pomiarów: ";
 
     private string sourceFileNameCSV = "";
-    private RawData rawData = new RawData();
+    private RawData rawData;
 
     private int dataToViewStart = 0;
+    public List<SeriesCollection> SeriesCollectionRawData { get; set; } = new List<SeriesCollection>();
+    private List<bool> isSeriesChosen = new List<bool>();
+    private double pointSize = 5;
+    private int seriesCountMax = 6;
 
     private void btnLoadFile_Click(object sender, RoutedEventArgs e)
     {
@@ -43,15 +45,24 @@ public partial class MainWindow : Window
         {
             sourceFileNameCSV = openFileDialog.FileName;
 
-            rawData = new RawData();
+            rawData = new RawData(seriesCountMax);
             rawData.ReadFromAFile(sourceFileNameCSV);
 
             lblDeltaTime.Content = textLabelDeltaTime + rawData.DeltaTime + "s";
-
-            /*// debug
-            lblTitle.Content = "";
-            foreach (var time in rawData.time)
-                lblTitle.Content += (time + " ");*/
+            UpdateRawChart();
         }
+    }
+
+    private void UpdateRawChart()
+    {
+        var allSeries = new List<ISeries>();
+
+        for (int i = 0; i < seriesCountMax; i++)
+        {
+            if (isSeriesChosen[i])
+                allSeries.AddRange(rawData.GenerateSeries(i, pointSize));
+        }
+
+        chartRawData.Series = allSeries;
     }
 }

@@ -1,11 +1,12 @@
 ﻿<Window x:Class="IwppCOSwykresy.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IwppCOSwykresy"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="COS obróbka danych" Height="450" Width="800">
     <Grid>
         <TabControl>
             <TabItem Header="Plik" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
@@ -20,7 +21,17 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Wykresy surowe">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5">
+                    <lvc:CartesianChart Margin="10,10,365,123" Background="White" Name="chartRawData"/>
+                    <CheckBox x:Name="cbxDane0" Content="Kanał 1" HorizontalAlignment="Left" Margin="698,10,0,0" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="cbxDane1" Content="Kanał 2" HorizontalAlignment="Left" Margin="698,30,0,0" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="cbxDane2" Content="Kanał 3" HorizontalAlignment="Left" Margin="698,52,0,0" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="cbxDane3" Content="Kanał 4" HorizontalAlignment="Left" Margin="698,72,0,0" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="cbxDane4" Content="Kanał 5" HorizontalAlignment="Left" Margin="698,96,0,0" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="cbxDane5" Content="Kanał 6" HorizontalAlignment="Left" Margin="698,116,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="lblDeltaTime_Kopiuj2" Content="Odrzuć pomiary:" HorizontalAlignment="Left" Margin="10,294,0,0" VerticalAlignment="Top" Height="34" Width="102"/>
+                    <TextBox HorizontalAlignment="Left" Margin="117,302,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="56"/>
+                </Grid>
             </TabItem>
             <TabItem HorizontalAlignment="Center" Height="22" Header="Wykresy bezwzględne" VerticalAlignment="Top" Width="143" Margin="0,-1,0,0">
                 <Grid Background="#FFE5E5E5"/>

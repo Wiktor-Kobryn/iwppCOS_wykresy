@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using LiveCharts;
+using LiveCharts.Wpf;
+using LiveChartsCore;
+using LiveChartsCore.Defaults;
+using LiveChartsCore.SkiaSharpView;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace IwppCOSwykresy
 {
@@ -18,11 +16,15 @@ namespace IwppCOSwykresy
         private int seriesCountMax = 6;
         private int seriesStartColIndex = 2;
         private int seriesLength = 0;
+        private string dataName = "Kanał";
+
         public float DeltaTime { get; private set; } = 0.0f;
         public float StartTime { get; private set; } = 0.0f;
 
-        public RawData()
+        public RawData(int seriesCountMax)
         {
+            this.seriesCountMax = seriesCountMax;
+
             for(int i = 0; i < seriesCountMax; i++)
             {
                 dataSeries.Add(new List<double>());
@@ -52,9 +54,9 @@ namespace IwppCOSwykresy
                     {
                         double conductivity = Convert.ToDouble(values[i + seriesStartColIndex], new CultureInfo("pl-PL"));
                         dataSeries[i].Add(conductivity);
-
-                        seriesLength++;
                     }
+
+                    seriesLength++;
                 }
             }
         }
@@ -97,5 +99,23 @@ namespace IwppCOSwykresy
                 currentTime += DeltaTime;
             }
         }
+
+        public IEnumerable<ISeries> GenerateSeries(int index, double pointSize)
+        {
+            var values = new List<ObservablePoint>();
+            for (int i = 0; i < seriesLength; i++)
+                values.Add(new ObservablePoint(time[i], dataSeries[index][i]));
+
+            return new ISeries[]
+            {
+                    new ScatterSeries<ObservablePoint>
+                    {
+                        Values = values,
+                        Name = dataName + " " + (index + 1),
+                        GeometrySize = pointSize
+                    }
+            };
+        }
+
     }
 }
