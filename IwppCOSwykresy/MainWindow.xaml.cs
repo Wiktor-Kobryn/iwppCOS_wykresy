@@ -22,8 +22,12 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
+    private string textLabelDeltaTime = "Odstęp czasowy pomiarów: ";
+
     private string sourceFileNameCSV = "";
     private RawData rawData = new RawData();
+
+    private int dataToViewStart = 0;
 
     private void btnLoadFile_Click(object sender, RoutedEventArgs e)
     {
@@ -39,7 +43,15 @@ public partial class MainWindow : Window
         {
             sourceFileNameCSV = openFileDialog.FileName;
 
+            rawData = new RawData();
             rawData.ReadFromAFile(sourceFileNameCSV);
+
+            lblDeltaTime.Content = textLabelDeltaTime + rawData.DeltaTime + "s";
+
+            /*// debug
+            lblTitle.Content = "";
+            foreach (var time in rawData.time)
+                lblTitle.Content += (time + " ");*/
         }
     }
 }

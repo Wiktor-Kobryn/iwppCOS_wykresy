@@ -13,6 +13,10 @@
                     <Label x:Name="lblTitle" Content=" Program do obróbki wyników badań uzyskanych z modeli fizycznych agregatów metalurgicznych - COS." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="30" Width="574"/>
                     <Label Content="Kacper Rygał&#xD;&#xA;Jakub Woźniak&#xD;&#xA;Wiktor Kobryń&#xD;&#xA;IPpp40" HorizontalAlignment="Left" Margin="659,293,0,0" VerticalAlignment="Top" Height="74" Width="91"/>
                     <Button x:Name="btnLoadFile" Content="wczytaj plik" HorizontalAlignment="Left" Margin="27,45,0,0" VerticalAlignment="Top" Height="27" Width="106" Click="btnLoadFile_Click"/>
+                    <Label x:Name="lblDeltaTime" Content="Odstęp czasowy pomiarów: -" HorizontalAlignment="Left" Margin="80,105,0,0" VerticalAlignment="Top" Height="34" Width="200"/>
+                    <Button x:Name="btnSaveFile" Content="zapisz wyniki" HorizontalAlignment="Left" Margin="27,241,0,0" VerticalAlignment="Top" Height="27" Width="106" Click="btnLoadFile_Click"/>
+                    <Label x:Name="lblDeltaTime_Kopiuj" Content="&lt;opis co to robi&gt;" HorizontalAlignment="Left" Margin="27,72,0,0" VerticalAlignment="Top" Height="33" Width="200"/>
+                    <Label x:Name="lblDeltaTime_Kopiuj1" Content="&lt;opis co to robi&gt;" HorizontalAlignment="Left" Margin="27,273,0,0" VerticalAlignment="Top" Height="33" Width="200"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Wykresy surowe">
