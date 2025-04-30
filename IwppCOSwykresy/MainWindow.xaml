@@ -23,15 +23,21 @@
             <TabItem Header="Wykresy surowe">
                 <Grid Background="#FFE5E5E5">
                     <lvc:CartesianChart Margin="10,10,365,123" Background="White" Name="chartRawData"/>
-                    <CheckBox x:Name="cbxDane0" Content="Kanał 1" HorizontalAlignment="Left" Margin="698,10,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxDane_Click"/>
-                    <CheckBox x:Name="cbxDane1" Content="Kanał 2" HorizontalAlignment="Left" Margin="698,30,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxDane_Click"/>
-                    <CheckBox x:Name="cbxDane2" Content="Kanał 3" HorizontalAlignment="Left" Margin="698,52,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxDane_Click"/>
-                    <CheckBox x:Name="cbxDane3" Content="Kanał 4" HorizontalAlignment="Left" Margin="698,72,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxDane_Click"/>
-                    <CheckBox x:Name="cbxDane4" Content="Kanał 5" HorizontalAlignment="Left" Margin="698,96,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxDane_Click"/>
-                    <CheckBox x:Name="cbxDane5" Content="Kanał 6" HorizontalAlignment="Left" Margin="698,116,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxDane_Click"/>
+                    <CheckBox x:Name="cbxData0" Content="Kanał 1" HorizontalAlignment="Left" Margin="698,10,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxData_Click"/>
+                    <CheckBox x:Name="cbxData1" Content="Kanał 2" HorizontalAlignment="Left" Margin="698,30,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxData_Click"/>
+                    <CheckBox x:Name="cbxData2" Content="Kanał 3" HorizontalAlignment="Left" Margin="698,52,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxData_Click"/>
+                    <CheckBox x:Name="cbxData3" Content="Kanał 4" HorizontalAlignment="Left" Margin="698,72,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxData_Click"/>
+                    <CheckBox x:Name="cbxData4" Content="Kanał 5" HorizontalAlignment="Left" Margin="698,96,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxData_Click"/>
+                    <CheckBox x:Name="cbxData5" Content="Kanał 6" HorizontalAlignment="Left" Margin="698,116,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxData_Click"/>
                     <Label x:Name="lblDeltaTime_Kopiuj2" Content="Odrzuć pomiary:" HorizontalAlignment="Left" Margin="10,294,0,0" VerticalAlignment="Top" Height="34" Width="102"/>
                     <TextBox x:Name="txtStartValue" HorizontalAlignment="Left" Margin="117,302,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="56" PreviewTextInput="txtStartValue_PreviewTextInput" TextChanged="txtStartValue_TextChanged" MaxLength="2"/>
                     <Label x:Name="lblStartTime" Content="(0 s)" HorizontalAlignment="Left" Margin="178,293,0,0" VerticalAlignment="Top" Height="34" Width="102"/>
+                    <Label x:Name="lblColorData0" Content="" HorizontalAlignment="Left" Margin="681,12,0,0" VerticalAlignment="Top" Height="12" Width="12" BorderBrush="Black" BorderThickness="1,1,1,1"/>
+                    <Label x:Name="lblColorData1" Content="" HorizontalAlignment="Left" Margin="681,32,0,0" VerticalAlignment="Top" Height="12" Width="12" BorderBrush="Black" BorderThickness="1,1,1,1"/>
+                    <Label x:Name="lblColorData2" Content="" HorizontalAlignment="Left" Margin="681,54,0,0" VerticalAlignment="Top" Height="12" Width="12" BorderBrush="Black" BorderThickness="1,1,1,1"/>
+                    <Label x:Name="lblColorData3" Content="" HorizontalAlignment="Left" Margin="681,75,0,0" VerticalAlignment="Top" Height="12" Width="12" BorderBrush="Black" BorderThickness="1,1,1,1"/>
+                    <Label x:Name="lblColorData4" Content="" HorizontalAlignment="Left" Margin="681,98,0,0" VerticalAlignment="Top" Height="12" Width="12" BorderBrush="Black" BorderThickness="1,1,1,1"/>
+                    <Label x:Name="lblColorData5" Content="" HorizontalAlignment="Left" Margin="681,118,0,0" VerticalAlignment="Top" Height="12" Width="12" BorderBrush="Black" BorderThickness="1,1,1,1"/>
                 </Grid>
             </TabItem>
             <TabItem HorizontalAlignment="Center" Height="22" Header="Wykresy bezwzględne" VerticalAlignment="Top" Width="143" Margin="0,-1,0,0">

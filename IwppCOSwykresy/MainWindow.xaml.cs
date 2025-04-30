@@ -5,6 +5,7 @@ using SkiaSharp;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 
 namespace IwppCOSwykresy;
@@ -35,8 +36,9 @@ public partial class MainWindow : Window
         for (int i = 0; i < seriesCountMax; i++)
             isSeriesChosen.Add(true);
 
-        allCheckboxes = new List<CheckBox> { cbxDane0, cbxDane1, cbxDane2, cbxDane3, cbxDane4, cbxDane5 };
+        allCheckboxes = new List<CheckBox> { cbxData0, cbxData1, cbxData2, cbxData3, cbxData4, cbxData5 };
         seriesColors = new List<SKColor> { SKColors.IndianRed, SKColors.CornflowerBlue, SKColors.Orange, SKColors.GreenYellow, SKColors.MediumPurple, SKColors.Yellow };
+        UpdateDataLabelColors();
 
         isAfterInit = true;
     }
@@ -77,7 +79,7 @@ public partial class MainWindow : Window
         chartRawData.Series = allSeries;
     }
 
-    private void cbxDane_Click(object sender, RoutedEventArgs e)
+    private void cbxData_Click(object sender, RoutedEventArgs e)
     {
         if(isDataLoaded)
         {
@@ -139,4 +141,20 @@ public partial class MainWindow : Window
         }
     }
 
+    private SolidColorBrush ConvertSkColorToBrush(SKColor skColor)
+    {
+        return new SolidColorBrush(Color.FromArgb(skColor.Alpha, skColor.Red, skColor.Green, skColor.Blue));
+    }
+
+
+    private void UpdateDataLabelColors()
+    {
+        // lazy solution but invoked once
+        lblColorData0.Background = ConvertSkColorToBrush(seriesColors[0]);
+        lblColorData1.Background = ConvertSkColorToBrush(seriesColors[1]);
+        lblColorData2.Background = ConvertSkColorToBrush(seriesColors[2]);
+        lblColorData3.Background = ConvertSkColorToBrush(seriesColors[3]);
+        lblColorData4.Background = ConvertSkColorToBrush(seriesColors[4]);
+        lblColorData5.Background = ConvertSkColorToBrush(seriesColors[5]);
+    }
 }
