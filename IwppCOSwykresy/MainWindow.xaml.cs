@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Microsoft.Win32;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,5 +20,26 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+    }
+
+    private string sourceFileNameCSV = "";
+    private RawData rawData = new RawData();
+
+    private void btnLoadFile_Click(object sender, RoutedEventArgs e)
+    {
+        LoadFileCSV();
+    }
+
+    private void LoadFileCSV()
+    {
+        OpenFileDialog openFileDialog = new OpenFileDialog();
+        openFileDialog.Filter = "Pliki CSV (*.csv)|*.csv";
+
+        if (openFileDialog.ShowDialog() == true)
+        {
+            sourceFileNameCSV = openFileDialog.FileName;
+
+            rawData.ReadFromAFile(sourceFileNameCSV);
+        }
     }
 }

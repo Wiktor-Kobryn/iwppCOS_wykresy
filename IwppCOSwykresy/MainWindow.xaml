@@ -7,6 +7,23 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button Content="RAPORT" HorizontalAlignment="Left" Margin="331,150,0,0" VerticalAlignment="Top" Height="67" Width="126"/>
+        <TabControl>
+            <TabItem Header="Plik" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
+                <Grid Background="#FFE5E5E5">
+                    <Label x:Name="lblTitle" Content=" Program do obróbki wyników badań uzyskanych z modeli fizycznych agregatów metalurgicznych - COS." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="30" Width="574"/>
+                    <Label Content="Kacper Rygał&#xD;&#xA;Jakub Woźniak&#xD;&#xA;Wiktor Kobryń&#xD;&#xA;IPpp40" HorizontalAlignment="Left" Margin="659,293,0,0" VerticalAlignment="Top" Height="74" Width="91"/>
+                    <Button x:Name="btnLoadFile" Content="wczytaj plik" HorizontalAlignment="Left" Margin="27,45,0,0" VerticalAlignment="Top" Height="27" Width="106" Click="btnLoadFile_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Wykresy surowe">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem HorizontalAlignment="Center" Height="22" Header="Wykresy bezwzględne" VerticalAlignment="Top" Width="143" Margin="0,-1,0,0">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem HorizontalAlignment="Center" Height="22" Header="Strefy" VerticalAlignment="Center" Width="54">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
