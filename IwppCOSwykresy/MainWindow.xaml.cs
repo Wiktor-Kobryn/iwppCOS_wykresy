@@ -21,7 +21,8 @@ public partial class MainWindow : Window
 
     private int dataToViewStart = 0;
     private List<SKColor> seriesColors;
-    private List<CheckBox> allCheckboxes;
+    private List<CheckBox> rawCheckboxes;
+    private List<CheckBox> normCheckboxes;
     private List<bool> isSeriesChosen = new List<bool>();
     private double pointSize = 5;
     private int seriesCountMax = 6;
@@ -35,7 +36,14 @@ public partial class MainWindow : Window
         for (int i = 0; i < seriesCountMax; i++)
             isSeriesChosen.Add(true);
 
-        allCheckboxes = new List<CheckBox> { cbxData0, cbxData1, cbxData2, cbxData3, cbxData4, cbxData5 };
+        rawCheckboxes = new List<CheckBox> { cbxData0, cbxData1, cbxData2, cbxData3, cbxData4, cbxData5 };
+        normCheckboxes = new List<CheckBox> { cbxReData0, cbxReData1, cbxReData2, cbxReData3, cbxReData4, cbxReData5 };
+
+        foreach (var cb in rawCheckboxes.Concat(normCheckboxes))
+        {
+            cb.Click += SeriesCheckbox_Click;
+        }
+
         seriesColors = new List<SKColor> { SKColors.IndianRed, SKColors.CornflowerBlue, SKColors.Orange, SKColors.GreenYellow, SKColors.MediumPurple, SKColors.Yellow };
         UpdateDataLabelColors();
 
@@ -50,7 +58,7 @@ public partial class MainWindow : Window
             {
                 Name = "Czas t [s]",
                 Labeler = xLabeler,
-                MinStep = rawData != null ? rawData.DeltaTime : 1,       
+                MinStep = rawData != null ? rawData.DeltaTime : 1,
                 SeparatorsPaint = new SolidColorPaint(new SKColor(200,200,200)),
             }
         ];
@@ -86,9 +94,8 @@ public partial class MainWindow : Window
             lblDeltaTime.Content = textLabelDeltaTime + rawData.DeltaTime + "s";
             isDataLoaded = true;
 
-           
-
             UpdateRawChart();
+            UpdateNormalizedChart();
         }
     }
 
@@ -105,39 +112,46 @@ public partial class MainWindow : Window
         chartRawData.Series = allSeries;
     }
 
-    private void cbxData_Click(object sender, RoutedEventArgs e)
+    private void SeriesCheckbox_Click(object sender, RoutedEventArgs e)
     {
-        if (isDataLoaded)
+        if (!isDataLoaded) return;
+
+        var cb = (CheckBox)sender;
+        int idx;
+        bool isRaw = rawCheckboxes.Contains(cb);
+
+        if (isRaw)
+            idx = rawCheckboxes.IndexOf(cb);
+        else
+            idx = normCheckboxes.IndexOf(cb);
+
+        bool isChecked = cb.IsChecked == true;
+        isSeriesChosen[idx] = isChecked;
+
+        var otherCb = isRaw ? normCheckboxes[idx] : rawCheckboxes[idx];
+        if (otherCb.IsChecked != isChecked)
+            otherCb.IsChecked = isChecked;
+
+        int checkedCount = isSeriesChosen.Count(x => x);
+        if (checkedCount <= 2)
         {
-            for (int i = 0; i < allCheckboxes.Count; i++)
+            for (int i = 0; i < seriesCountMax; i++)
             {
-                isSeriesChosen[i] = allCheckboxes[i].IsChecked ?? false;
-            }
-
-            int checkedCount = isSeriesChosen.Count(x => x);
-
-            if (checkedCount <= 2)
-            {
-                for (int i = 0; i < allCheckboxes.Count; i++)
+                if (isSeriesChosen[i])
                 {
-                    if (isSeriesChosen[i])
-                        allCheckboxes[i].IsEnabled = false;
+                    rawCheckboxes[i].IsEnabled = false;
+                    normCheckboxes[i].IsEnabled = false;
                 }
             }
-            else
-            {
-                foreach (var cb in allCheckboxes)
-                    cb.IsEnabled = true;
-            }
-
-            UpdateRawChart();
         }
         else
         {
-            foreach (var cb in allCheckboxes)
-                cb.IsEnabled = true;
+            foreach (var c in rawCheckboxes) c.IsEnabled = true;
+            foreach (var c in normCheckboxes) c.IsEnabled = true;
         }
 
+        UpdateRawChart();
+        UpdateNormalizedChart();
     }
 
     private void txtStartValue_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -150,27 +164,65 @@ public partial class MainWindow : Window
         if (isDataLoaded == false)
             tbcMainTab.SelectedIndex = 0;
 
+        switch (tbcMainTab.SelectedIndex)
+        {
+            case 1:
+                UpdateRawChart();
+                break;
+
+            case 2:
+                UpdateNormalizedChart();
+                break;
+        }
     }
 
     private void txtStartValue_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (isAfterInit && isDataLoaded && int.TryParse(txtStartValue.Text, out int value))
         {
-            if (value < 0)
-                txtStartValue.Text = "0";
-            else if (value > 99)
-                txtStartValue.Text = "99";
-
-            dataToViewStart = value;
-            lblStartTime.Content = "( " + (value * rawData.DeltaTime) + "s )";
-            UpdateRawChart();
+            TextChanged(value);
         }
+    }
+
+    private void txtReStartValue_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (isAfterInit && isDataLoaded && int.TryParse(txtReStartValue.Text, out int value))
+        {
+            TextChanged(value);
+        }
+    }
+
+
+    private void TextChanged(int value)
+    {
+
+        if (value < 0)
+        {
+            txtStartValue.Text = "0";
+            txtReStartValue.Text = "0";
+        }
+        else if (value > 99)
+        {
+            txtStartValue.Text = "99";
+            txtReStartValue.Text = "99";
+        }
+
+        dataToViewStart = value;
+        lblStartTime.Content = "( " + (value * rawData.DeltaTime) + "s )";
+        lblReStartTime.Content = "( " + (value * rawData.DeltaTime) + "s )";
+
+        txtReStartValue.Text = $"{value.ToString()}";
+        txtStartValue.Text = $"{value.ToString()}";
+
+        UpdateRawChart();
+        UpdateNormalizedChart();
     }
 
     private SolidColorBrush ConvertSkColorToBrush(SKColor skColor)
     {
         return new SolidColorBrush(Color.FromArgb(skColor.Alpha, skColor.Red, skColor.Green, skColor.Blue));
     }
+
 
 
     private void UpdateDataLabelColors()
@@ -181,5 +233,26 @@ public partial class MainWindow : Window
         rectColor3.Fill = ConvertSkColorToBrush(seriesColors[3]);
         rectColor4.Fill = ConvertSkColorToBrush(seriesColors[4]);
         rectColor5.Fill = ConvertSkColorToBrush(seriesColors[5]);
+
+        rectReColor0.Fill = ConvertSkColorToBrush(seriesColors[0]);
+        rectReColor1.Fill = ConvertSkColorToBrush(seriesColors[1]);
+        rectReColor2.Fill = ConvertSkColorToBrush(seriesColors[2]);
+        rectReColor3.Fill = ConvertSkColorToBrush(seriesColors[3]);
+        rectReColor4.Fill = ConvertSkColorToBrush(seriesColors[4]);
+        rectReColor5.Fill = ConvertSkColorToBrush(seriesColors[5]);
     }
+
+    private void UpdateNormalizedChart()
+    {
+        if (!isDataLoaded) return;
+
+        var allSeries = new List<ISeries>();
+        for (int i = 0; i < seriesCountMax; i++)
+        {
+            if (isSeriesChosen[i])
+                allSeries.AddRange(rawData.GenerateNormalizedSeries(i, pointSize, dataToViewStart, seriesColors[i]));
+        }
+        chartNormalizedData.Series = allSeries;
+    }
+
 }

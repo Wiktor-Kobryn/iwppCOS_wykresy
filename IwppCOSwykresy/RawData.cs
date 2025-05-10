@@ -122,5 +122,36 @@ namespace IwppCOSwykresy
             };
         }
 
+        public List<double> MaxValues { get; private set; } = [];
+
+        public IEnumerable<ISeries> GenerateNormalizedSeries(int index, double pointSize, int startIndex, SKColor color)
+        {
+            var series = dataSeries[index];
+            int count = series.Count;
+            if (count == 0) yield break;
+
+            double C0 = series[startIndex];
+            double Cx = series[count - 1];
+            double denom = Cx - C0;
+            if (Math.Abs(denom) < 1e-10)
+                denom = 1;
+
+            var values = new List<ObservablePoint>();
+            for (int i = startIndex; i < count; i++)
+            {
+                double Ct = series[i];
+                double Cb = (Ct - C0) / denom;
+                values.Add(new ObservablePoint(time[i], Cb));
+            }
+
+            yield return new ScatterSeries<ObservablePoint>
+            {
+                Values = values,
+                Name = $"{dataName} {index + 1}",
+                GeometrySize = pointSize,
+                Fill = new SolidColorPaint(color),
+                Stroke = new SolidColorPaint(color)
+            };
+        }
     }
 }
