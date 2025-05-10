@@ -22,22 +22,47 @@
             </TabItem>
             <TabItem Header="Wykresy surowe">
                 <Grid Background="#FFE5E5E5">
-                    <lvc:CartesianChart Margin="10,10,365,123" Background="White" Name="chartRawData"/>
-                    <CheckBox x:Name="cbxData0" Content="Kanał 1" HorizontalAlignment="Left" Margin="698,10,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxData_Click"/>
-                    <CheckBox x:Name="cbxData1" Content="Kanał 2" HorizontalAlignment="Left" Margin="698,30,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxData_Click"/>
-                    <CheckBox x:Name="cbxData2" Content="Kanał 3" HorizontalAlignment="Left" Margin="698,52,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxData_Click"/>
-                    <CheckBox x:Name="cbxData3" Content="Kanał 4" HorizontalAlignment="Left" Margin="698,72,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxData_Click"/>
-                    <CheckBox x:Name="cbxData4" Content="Kanał 5" HorizontalAlignment="Left" Margin="698,96,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxData_Click"/>
-                    <CheckBox x:Name="cbxData5" Content="Kanał 6" HorizontalAlignment="Left" Margin="698,116,0,0" VerticalAlignment="Top" IsChecked="True" Click="cbxData_Click"/>
-                    <Label x:Name="lblDeltaTime_Kopiuj2" Content="Odrzuć pomiary:" HorizontalAlignment="Left" Margin="10,294,0,0" VerticalAlignment="Top" Height="34" Width="102"/>
-                    <TextBox x:Name="txtStartValue" HorizontalAlignment="Left" Margin="117,302,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="56" PreviewTextInput="txtStartValue_PreviewTextInput" TextChanged="txtStartValue_TextChanged" MaxLength="2"/>
-                    <Label x:Name="lblStartTime" Content="(0 s)" HorizontalAlignment="Left" Margin="178,293,0,0" VerticalAlignment="Top" Height="34" Width="102"/>
-                    <Label x:Name="lblColorData0" Content="" HorizontalAlignment="Left" Margin="681,12,0,0" VerticalAlignment="Top" Height="12" Width="12" BorderBrush="Black" BorderThickness="1,1,1,1"/>
-                    <Label x:Name="lblColorData1" Content="" HorizontalAlignment="Left" Margin="681,32,0,0" VerticalAlignment="Top" Height="12" Width="12" BorderBrush="Black" BorderThickness="1,1,1,1"/>
-                    <Label x:Name="lblColorData2" Content="" HorizontalAlignment="Left" Margin="681,54,0,0" VerticalAlignment="Top" Height="12" Width="12" BorderBrush="Black" BorderThickness="1,1,1,1"/>
-                    <Label x:Name="lblColorData3" Content="" HorizontalAlignment="Left" Margin="681,75,0,0" VerticalAlignment="Top" Height="12" Width="12" BorderBrush="Black" BorderThickness="1,1,1,1"/>
-                    <Label x:Name="lblColorData4" Content="" HorizontalAlignment="Left" Margin="681,98,0,0" VerticalAlignment="Top" Height="12" Width="12" BorderBrush="Black" BorderThickness="1,1,1,1"/>
-                    <Label x:Name="lblColorData5" Content="" HorizontalAlignment="Left" Margin="681,118,0,0" VerticalAlignment="Top" Height="12" Width="12" BorderBrush="Black" BorderThickness="1,1,1,1"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <lvc:CartesianChart Margin="10,10,10,10" Background="White" Name="chartRawData"/>
+                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="10" Orientation="Vertical" VerticalAlignment="Top">  
+                        <StackPanel Orientation="Horizontal" Margin="0,2">
+                            <Rectangle x:Name="rectColor0" Width="12" Height="12" Stroke="Black" StrokeThickness="1"/>
+                            <CheckBox x:Name="cbxData0" Content="Kanał 1" Margin="5,0,0,0" IsChecked="True" Click="cbxData_Click"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,2">
+                            <Rectangle x:Name="rectColor1" Width="12" Height="12" Stroke="Black" StrokeThickness="1"/>
+                            <CheckBox x:Name="cbxData1" Content="Kanał 2" Margin="5,0,0,0" IsChecked="True" Click="cbxData_Click"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,2">
+                            <Rectangle x:Name="rectColor2" Width="12" Height="12" Stroke="Black" StrokeThickness="1"/>
+                            <CheckBox x:Name="cbxData2" Content="Kanał 3" Margin="5,0,0,0" IsChecked="True" Click="cbxData_Click"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,2">
+                            <Rectangle x:Name="rectColor3" Width="12" Height="12" Stroke="Black" StrokeThickness="1"/>
+                            <CheckBox x:Name="cbxData3" Content="Kanał 4" Margin="5,0,0,0" IsChecked="True" Click="cbxData_Click"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,2">
+                            <Rectangle x:Name="rectColor4" Width="12" Height="12" Stroke="Black" StrokeThickness="1"/>
+                            <CheckBox x:Name="cbxData4" Content="Kanał 5" Margin="5,0,0,0" IsChecked="True" Click="cbxData_Click"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,2">
+                            <Rectangle x:Name="rectColor5" Width="12" Height="12" Stroke="Black" StrokeThickness="1"/>
+                            <CheckBox x:Name="cbxData5" Content="Kanał 6" Margin="5,0,0,0" IsChecked="True" Click="cbxData_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Margin="10" VerticalAlignment="Center">
+                        <Label Content="Odrzuć pomiary:" VerticalAlignment="Center"/>
+                        <TextBox x:Name="txtStartValue" Width="40" Margin="5,0" Text="0" PreviewTextInput="txtStartValue_PreviewTextInput" TextChanged="txtStartValue_TextChanged"/>
+                        <Label x:Name="lblStartTime" Content="(0 s)" VerticalAlignment="Center"/>
+                    </StackPanel>
                 </Grid>
             </TabItem>
             <TabItem HorizontalAlignment="Center" Height="22" Header="Wykresy bezwzględne" VerticalAlignment="Top" Width="143" Margin="0,-1,0,0">

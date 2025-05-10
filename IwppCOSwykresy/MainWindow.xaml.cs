@@ -175,12 +175,11 @@ public partial class MainWindow : Window
 
     private void UpdateDataLabelColors()
     {
-        // lazy solution but invoked once
-        lblColorData0.Background = ConvertSkColorToBrush(seriesColors[0]);
-        lblColorData1.Background = ConvertSkColorToBrush(seriesColors[1]);
-        lblColorData2.Background = ConvertSkColorToBrush(seriesColors[2]);
-        lblColorData3.Background = ConvertSkColorToBrush(seriesColors[3]);
-        lblColorData4.Background = ConvertSkColorToBrush(seriesColors[4]);
-        lblColorData5.Background = ConvertSkColorToBrush(seriesColors[5]);
+        rectColor0.Fill = ConvertSkColorToBrush(seriesColors[0]);
+        rectColor1.Fill = ConvertSkColorToBrush(seriesColors[1]);
+        rectColor2.Fill = ConvertSkColorToBrush(seriesColors[2]);
+        rectColor3.Fill = ConvertSkColorToBrush(seriesColors[3]);
+        rectColor4.Fill = ConvertSkColorToBrush(seriesColors[4]);
+        rectColor5.Fill = ConvertSkColorToBrush(seriesColors[5]);
     }
 }
