@@ -1,5 +1,6 @@
-﻿using LiveCharts;
-using LiveChartsCore;
+﻿using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
 using Microsoft.Win32;
 using SkiaSharp;
 using System.Windows;
@@ -10,9 +11,7 @@ using System.Windows.Media;
 
 namespace IwppCOSwykresy;
 
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
+
 public partial class MainWindow : Window
 {
     private string textLabelDeltaTime = "Odstęp czasowy pomiarów: ";
@@ -41,6 +40,30 @@ public partial class MainWindow : Window
         UpdateDataLabelColors();
 
         isAfterInit = true;
+
+        Func<double, string> xLabeler = value => $"{value:0.0}";
+        Func<double, string> yLabeler = value => $"{value:0.00}";
+
+        chartRawData.XAxes =
+        [
+            new Axis
+            {
+                Name = "Czas t [s]",
+                Labeler = xLabeler,
+                MinStep = rawData != null ? rawData.DeltaTime : 1,       
+                SeparatorsPaint = new SolidColorPaint(new SKColor(200,200,200)),
+            }
+        ];
+
+        chartRawData.YAxes =
+        [
+            new Axis
+            {
+                Name = "Stężenie",
+                Labeler = yLabeler,
+                SeparatorsPaint = new SolidColorPaint(new SKColor(200,200,200)),
+            }
+        ];
     }
 
     private void btnLoadFile_Click(object sender, RoutedEventArgs e)
@@ -62,6 +85,9 @@ public partial class MainWindow : Window
 
             lblDeltaTime.Content = textLabelDeltaTime + rawData.DeltaTime + "s";
             isDataLoaded = true;
+
+           
+
             UpdateRawChart();
         }
     }
@@ -81,7 +107,7 @@ public partial class MainWindow : Window
 
     private void cbxData_Click(object sender, RoutedEventArgs e)
     {
-        if(isDataLoaded)
+        if (isDataLoaded)
         {
             for (int i = 0; i < allCheckboxes.Count; i++)
             {
@@ -123,7 +149,7 @@ public partial class MainWindow : Window
     {
         if (isDataLoaded == false)
             tbcMainTab.SelectedIndex = 0;
-            
+
     }
 
     private void txtStartValue_TextChanged(object sender, TextChangedEventArgs e)
