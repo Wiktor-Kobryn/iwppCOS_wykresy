@@ -108,10 +108,35 @@
                         <TextBox x:Name="txtReStartValue" Width="40" Margin="5,0" Text="0" PreviewTextInput="txtStartValue_PreviewTextInput" TextChanged="txtReStartValue_TextChanged"/>
                         <Label x:Name="lblReStartTime" Content="(0 s)" VerticalAlignment="Center"/>
                     </StackPanel>
+                    <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="10">
+                        <Label Content="Strefa od:" VerticalAlignment="Center"/>
+                        <TextBox x:Name="txtZoneLow" Width="40" Text="0.2"/>
+                        <Label Content="do:" VerticalAlignment="Center" Margin="5,0"/>
+                        <TextBox x:Name="txtZoneHigh" Width="40" Text="0.8"/>
+                        <Button x:Name="btnShowZones" Content="Pokaż granice" Margin="10,0,0,0" Click="btnShowZones_Click"/>
+                        <Button x:Name="btnHideZones" Content="Ukryj granice" Margin="10,0,0,0" Click="btnHideZones_Click"/>
+                    </StackPanel>
                 </Grid>
             </TabItem>
-            <TabItem HorizontalAlignment="Center" Height="22" Header="Strefy" VerticalAlignment="Center" Width="54">
-                <Grid Background="#FFE5E5E5"/>
+            <TabItem HorizontalAlignment="Center" Height="22" Header="Granice" VerticalAlignment="Center" Width="54">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <DataGrid x:Name="dgZones" Grid.Row="0" Grid.Column="0" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" Margin="10">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Kanał" Binding="{Binding Channel}" Width="*"/>
+                            <DataGridTextColumn Header="Dolna granica"  Binding="{Binding Low}" Width="*"/>
+                            <DataGridTextColumn Header="Górna granica" Binding="{Binding High}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Grid.Row="1" Grid.Column="0" Content="Odśwież tabelę" Margin="10" Click="btnRefreshZones_Click"/>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

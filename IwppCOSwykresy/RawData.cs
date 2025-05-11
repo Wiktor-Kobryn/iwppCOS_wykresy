@@ -14,6 +14,7 @@ namespace IwppCOSwykresy
     public class RawData
     {
         public List<List<double>> dataSeries = new List<List<double>>();
+        public List<List<double>> dataNormalizedSeries = new List<List<double>>();
         public List<double> time = new List<double>();
 
         private int seriesCountMax = 6;
@@ -28,7 +29,7 @@ namespace IwppCOSwykresy
         {
             this.seriesCountMax = seriesCountMax;
 
-            for(int i = 0; i < seriesCountMax; i++)
+            for (int i = 0; i < seriesCountMax; i++)
             {
                 dataSeries.Add(new List<double>());
             }
@@ -151,6 +152,38 @@ namespace IwppCOSwykresy
                 GeometrySize = pointSize,
                 Fill = new SolidColorPaint(color),
                 Stroke = new SolidColorPaint(color)
+            };
+        }
+
+        public IEnumerable<ISeries> GenerateZoneSeries(double low, double high, int startIndex, SKColor color, float thickness = 2f, float dashLength = 5f)
+        {
+            if (time.Count <= startIndex) yield break;
+
+            double t0 = time[startIndex];
+            double t1 = time.Last();
+
+            yield return new LineSeries<ObservablePoint>
+            {
+                Values = new[]
+                {
+                new ObservablePoint(t0, low),
+                new ObservablePoint(t1, low)
+            },
+                GeometrySize = 0,
+                Stroke = new SolidColorPaint(color) { StrokeThickness = thickness },
+                Fill = null
+            };
+
+            yield return new LineSeries<ObservablePoint>
+            {
+                Values = new[]
+                {
+                new ObservablePoint(t0, high),
+                new ObservablePoint(t1, high)
+            },
+                GeometrySize = 0,
+                Stroke = new SolidColorPaint(color) { StrokeThickness = thickness },
+                Fill = null
             };
         }
     }
