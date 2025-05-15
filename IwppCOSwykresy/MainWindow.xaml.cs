@@ -4,6 +4,8 @@ using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using Microsoft.Win32;
 using SkiaSharp;
+using System.Globalization;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -30,6 +32,7 @@ public partial class MainWindow : Window
     private bool isAfterInit = false, isDataLoaded = false;
     private double? zoneLow = null;
     private double? zoneHigh = null;
+
     public MainWindow()
     {
         InitializeComponent();
@@ -83,21 +86,31 @@ public partial class MainWindow : Window
 
     private void LoadFileCSV()
     {
-        OpenFileDialog openFileDialog = new OpenFileDialog();
-        openFileDialog.Filter = "Pliki CSV (*.csv)|*.csv";
-
-        if (openFileDialog.ShowDialog() == true)
+        try
         {
-            sourceFileNameCSV = openFileDialog.FileName;
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Pliki CSV (*.csv)|*.csv";
 
-            rawData = new RawData(seriesCountMax);
-            rawData.ReadFromAFile(sourceFileNameCSV);
+            if (openFileDialog.ShowDialog() == true)
+            {
+                sourceFileNameCSV = openFileDialog.FileName;
 
-            lblDeltaTime.Content = textLabelDeltaTime + rawData.DeltaTime + "s";
-            isDataLoaded = true;
+                rawData = new RawData(seriesCountMax);
+                rawData.ReadFromAFile(sourceFileNameCSV);
 
-            UpdateRawChart();
-            UpdateNormalizedChart();
+                lblDeltaTime.Content = textLabelDeltaTime + rawData.DeltaTime + "s";
+                isDataLoaded = true;
+
+                UpdateRawChart();
+                UpdateNormalizedChart();
+
+
+            }
+            MessageBox.Show("Dane zostały odczytane poprawnie.", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Błąd odczytu pliku: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
@@ -202,23 +215,28 @@ public partial class MainWindow : Window
     private void TextChanged(int value)
     {
 
-        if (value < 0)
+        if (value < 0 )
         {
             txtStartValue.Text = "0";
             txtReStartValue.Text = "0";
+            value = 0;
         }
         else if (value > 99)
         {
             txtStartValue.Text = "99";
             txtReStartValue.Text = "99";
+            value = 99;
+        }
+        else
+        {
+            txtReStartValue.Text = $"{value.ToString()}";
+            txtStartValue.Text = $"{value.ToString()}";
+
         }
 
         dataToViewStart = value;
         lblStartTime.Content = "( " + (value * rawData.DeltaTime) + "s )";
         lblReStartTime.Content = "( " + (value * rawData.DeltaTime) + "s )";
-
-        txtReStartValue.Text = $"{value.ToString()}";
-        txtStartValue.Text = $"{value.ToString()}";
 
         UpdateRawChart();
         UpdateNormalizedChart();
@@ -341,6 +359,56 @@ public partial class MainWindow : Window
         }
 
         dgZones.ItemsSource = rows;
+    }
+
+    private void btnSaveFile_Click(object sender, RoutedEventArgs e)
+    {
+        if (!isDataLoaded)
+        {
+            MessageBox.Show("Najpierw załaduj dane.", "Brak danych", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        SaveFileDialog saveFileDialog = new SaveFileDialog
+        {
+            Filter = "Pliki CSV (*.csv)|*.csv",
+            FileName = "Dane.csv"
+        };
+
+        if (saveFileDialog.ShowDialog() == true)
+        {
+            try
+            {
+                using (var writer = new StreamWriter(saveFileDialog.FileName))
+                {
+                    writer.Write("Czas [s]");
+                    for (int i = 0; i < seriesCountMax; i++)
+                    {
+                        if (isSeriesChosen[i])
+                            writer.Write($";Kanał {i + 1}");
+                    }
+                    writer.WriteLine();
+
+                    int length = rawData.time.Count;
+                    for (int i = dataToViewStart; i < length; i++)
+                    {
+                        writer.Write($"{rawData.time[i].ToString("0.###", CultureInfo.InvariantCulture)}");
+                        for (int j = 0; j < seriesCountMax; j++)
+                        {
+                            if (isSeriesChosen[j])
+                                writer.Write($";{rawData.dataNormalizedSeries[j][i].ToString("0.###", CultureInfo.InvariantCulture)}");
+                        }
+                        writer.WriteLine();
+                    }
+                }
+
+                MessageBox.Show("Dane zostały zapisane poprawnie.", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Błąd zapisu pliku: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 
     private void btnRefreshZones_Click(object sender, RoutedEventArgs e)

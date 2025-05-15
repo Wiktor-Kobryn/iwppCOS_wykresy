@@ -32,6 +32,7 @@ namespace IwppCOSwykresy
             for (int i = 0; i < seriesCountMax; i++)
             {
                 dataSeries.Add(new List<double>());
+                dataNormalizedSeries.Add(new List<double>());
             }
         }
 
@@ -127,12 +128,15 @@ namespace IwppCOSwykresy
 
         public IEnumerable<ISeries> GenerateNormalizedSeries(int index, double pointSize, int startIndex, SKColor color)
         {
+            //dataNormalizedSeries.Clear();
             var series = dataSeries[index];
             int count = series.Count;
             if (count == 0) yield break;
 
-            double C0 = series[startIndex];
-            double Cx = series[count - 1];
+            //double C0 = series[startIndex];
+            double C0 = series.Min();
+            //double Cx = series[count - 1];
+            double Cx = series.Max();
             double denom = Cx - C0;
             if (Math.Abs(denom) < 1e-10)
                 denom = 1;
@@ -142,6 +146,9 @@ namespace IwppCOSwykresy
             {
                 double Ct = series[i];
                 double Cb = (Ct - C0) / denom;
+
+                dataNormalizedSeries[index].Add(Math.Round(Cb, 7));
+
                 values.Add(new ObservablePoint(time[i], Cb));
             }
 
