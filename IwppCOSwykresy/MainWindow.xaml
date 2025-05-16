@@ -12,10 +12,10 @@
             <TabItem Header="Plik" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
                 <Grid Background="#FFE5E5E5">
                     <Label x:Name="lblTitle" Content=" Program do obróbki wyników badań uzyskanych z modeli fizycznych agregatów metalurgicznych - COS." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="30" Width="574"/>
-                    <Label Content="Kacper Rygał&#xD;&#xA;Jakub Woźniak&#xD;&#xA;Wiktor Kobryń&#xD;&#xA;IPpp40" HorizontalAlignment="Left" Margin="659,293,0,0" VerticalAlignment="Top" Height="74" Width="91"/>
-                    <Button x:Name="btnLoadFile" Content="wczytaj plik" HorizontalAlignment="Left" Margin="27,45,0,0" VerticalAlignment="Top" Height="27" Width="106" Click="btnLoadFile_Click"/>
+                    <Label Content="Kacper Rygał&#xD;&#xA;Jakub Woźniak&#xD;&#xA;Wiktor Kobryń&#xD;&#xA;IPpp40" HorizontalAlignment="Right" Margin="0,0,44,37" Width="91" Height="74" VerticalAlignment="Bottom"/>
+                    <Button x:Name="btnLoadFile" Content="Wczytaj plik" HorizontalAlignment="Left" Margin="27,45,0,0" VerticalAlignment="Top" Height="27" Width="106" Click="btnLoadFile_Click"/>
                     <Label x:Name="lblDeltaTime" Content="Odstęp czasowy pomiarów: -" HorizontalAlignment="Left" Margin="80,105,0,0" VerticalAlignment="Top" Height="34" Width="200"/>
-                    <Button x:Name="btnSaveFile" Content="zapisz wyniki" HorizontalAlignment="Left" Margin="27,241,0,0" VerticalAlignment="Top" Height="27" Width="106" Click="btnSaveFile_Click"/>
+                    <Button x:Name="btnSaveFile" Content="Zapisz wyniki" HorizontalAlignment="Left" Margin="27,241,0,0" VerticalAlignment="Top" Height="27" Width="106" Click="btnSaveFile_Click"/>
                     <Label x:Name="lblDeltaTime_Kopiuj" Content="Odczyt danych z pliku .csv" HorizontalAlignment="Left" Margin="27,72,0,0" VerticalAlignment="Top" Height="33" Width="200"/>
                     <Label x:Name="lblDeltaTime_Kopiuj1" Content="Zapis znormalizowanych danych z wyznaczonych kanałów do pliku .csv" HorizontalAlignment="Left" Margin="27,273,0,0" VerticalAlignment="Top" Height="33" Width="404"/>
                 </Grid>
@@ -32,7 +32,7 @@
                     </Grid.RowDefinitions>
 
                     <lvc:CartesianChart Margin="10,10,10,10" Background="White" Name="chartRawData"/>
-                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="10" Orientation="Vertical" VerticalAlignment="Top">  
+                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="10" Orientation="Vertical" VerticalAlignment="Top">
                         <StackPanel Orientation="Horizontal" Margin="0,2">
                             <Rectangle x:Name="rectColor0" Width="12" Height="12" Stroke="Black" StrokeThickness="1"/>
                             <CheckBox x:Name="cbxData0" Content="Kanał 1" Margin="5,0,0,0" IsChecked="True"/>

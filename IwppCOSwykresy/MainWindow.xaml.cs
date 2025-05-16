@@ -280,6 +280,7 @@ public partial class MainWindow : Window
         }
 
         chartNormalizedData.Series = allSeries;
+        chartNormalizedData.XAxes = [new Axis { Name = "Ilość pomiarów" }];
     }
 
     private void btnHideZones_Click(object sender, RoutedEventArgs e)
@@ -381,7 +382,8 @@ public partial class MainWindow : Window
             {
                 using (var writer = new StreamWriter(saveFileDialog.FileName))
                 {
-                    writer.Write("Czas [s]");
+                    writer.Write("Nr");
+                    writer.Write(";Czas [s]");
                     for (int i = 0; i < seriesCountMax; i++)
                     {
                         if (isSeriesChosen[i])
@@ -390,8 +392,10 @@ public partial class MainWindow : Window
                     writer.WriteLine();
 
                     int length = rawData.time.Count;
+                    int nr = 0;
                     for (int i = dataToViewStart; i < length; i++)
                     {
+                        writer.Write(nr++ + ";");
                         writer.Write($"{rawData.time[i].ToString("0.###", CultureInfo.InvariantCulture)}");
                         for (int j = 0; j < seriesCountMax; j++)
                         {
