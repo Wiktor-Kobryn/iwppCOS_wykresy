@@ -392,7 +392,7 @@ public partial class MainWindow : Window
                     writer.WriteLine();
 
                     int length = rawData.time.Count;
-                    int nr = 1;
+                    int nr = 0;
                     for (int i = dataToViewStart; i < length; i++)
                     {
                         writer.Write(nr++ + ";");
