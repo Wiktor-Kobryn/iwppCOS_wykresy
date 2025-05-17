@@ -1,14 +1,11 @@
-﻿using LiveCharts;
-using LiveCharts.Wpf;
-using LiveChartsCore;
+﻿using LiveChartsCore;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
 using System.Globalization;
 using System.IO;
-using System.Windows.Media;
-using System.Linq;
+
 
 namespace IwppCOSwykresy
 {
@@ -47,7 +44,6 @@ namespace IwppCOSwykresy
         {
             using (var reader = new StreamReader(filePath))
             {
-                // skip title
                 reader.ReadLine();
 
                 while (!reader.EndOfStream)
@@ -55,7 +51,6 @@ namespace IwppCOSwykresy
                     var line = reader.ReadLine();
                     var values = line?.Split(';');
 
-                    // parse data
                     for (int i = 0; i < seriesCountMax; i++)
                     {
                         double conductivity = Convert.ToDouble(values[i + seriesStartColIndex], new CultureInfo("pl-PL"));
@@ -73,11 +68,9 @@ namespace IwppCOSwykresy
 
             using (var reader = new StreamReader(filePath))
             {
-                // skip title & first 2 rows
                 for (int i = 0; i < 3; i++)
                     reader.ReadLine();
 
-                // read time on 2 next lines and compare
                 for (int i = 0; i < 2; i++)
                 {
                     if (!reader.EndOfStream)
@@ -129,20 +122,12 @@ namespace IwppCOSwykresy
 
         public IEnumerable<ISeries> GenerateNormalizedSeries(int index, double pointSize, int startIndex, SKColor color)
         {
-     
-           // var seriesRaw = dataSeries[index];
-
-          
             var series = dataSeries[index].Skip(startIndex).ToList();
-
-
 
             int count = series.Count;
             if (count == 0) yield break;
 
-            //double C0 = series[startIndex];
             double C0 = series.Min();
-            //double Cx = series[count - 1];
             double Cx = series.Max();
             double denom = Cx - C0;
             if (Math.Abs(denom) < 1e-10)

@@ -1,5 +1,4 @@
-﻿using LiveCharts.Defaults;
-using LiveChartsCore;
+﻿using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using Microsoft.Win32;
@@ -353,12 +352,6 @@ public partial class MainWindow : Window
                 if (firstLow == null &&  (p.Y >= zoneLow.Value || (Math.Abs((double)(p.Y - zoneLow.Value))) <= 0.001)) firstLow = p.Y;
                 if (firstHigh == null && (p.Y >= zoneHigh.Value || (Math.Abs((double)(p.Y - zoneHigh.Value)) <= 0.001))) firstHigh = p.Y;
 
-
-                //if (firstLow == null && (Math.Abs((double)(p.Y - zoneLow.Value)) <= 0.0001)) firstLow = p.Y;
-                //if (firstHigh == null && (Math.Abs((double)(p.Y - zoneHigh.Value)) <= 0.0001)) firstHigh = p.Y;
-
-
-
                 if (firstLow.HasValue && firstHigh.HasValue)
                     break;
             }
@@ -430,7 +423,6 @@ public partial class MainWindow : Window
                                 if (double.TryParse(row.Low.Replace(",", "."), NumberStyles.Any, CultureInfo.InvariantCulture, out double dolna) &&
                                     double.TryParse(row.High.Replace(",", "."), NumberStyles.Any, CultureInfo.InvariantCulture, out double gorna))
                                 {
-                                    // Możesz teraz używać granic:
                                     writer.Write(";"+dolna);
                                     writer.Write(";"+gorna);
                                 }
