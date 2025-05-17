@@ -82,6 +82,7 @@ public partial class MainWindow : Window
     private void btnLoadFile_Click(object sender, RoutedEventArgs e)
     {
         LoadFileCSV();
+
     }
 
     private void LoadFileCSV()
@@ -403,8 +404,10 @@ public partial class MainWindow : Window
                     for (int i = 0; i < seriesCountMax; i++)
                     {
                         if (isSeriesChosen[i])
+                        {
                             writer.Write($";Granica dolna kanału {i + 1}");
                             writer.Write($";Granica górna kanału {i + 1}");
+                        }
                     }
 
                     writer.WriteLine();
