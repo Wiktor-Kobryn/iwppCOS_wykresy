@@ -9,18 +9,18 @@
         Title="COS obróbka danych" Height="450" Width="800">
     <Grid>
         <TabControl x:Name="tbcMainTab" SelectionChanged="tabControl_SelectionChanged">
-            <TabItem Header="Plik" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
+            <TabItem Header="Plik" Height="23" Margin="0,0,0,0" VerticalAlignment="Center">
                 <Grid Background="#FFE5E5E5">
                     <Label x:Name="lblTitle" Content=" Program do obróbki wyników badań uzyskanych z modeli fizycznych agregatów metalurgicznych - COS." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="30" Width="574"/>
-                    <Label Content="Kacper Rygał&#xD;&#xA;Jakub Woźniak&#xD;&#xA;Wiktor Kobryń&#xD;&#xA;IPpp40" HorizontalAlignment="Left" Margin="659,293,0,0" VerticalAlignment="Top" Height="74" Width="91"/>
-                    <Button x:Name="btnLoadFile" Content="wczytaj plik" HorizontalAlignment="Left" Margin="27,45,0,0" VerticalAlignment="Top" Height="27" Width="106" Click="btnLoadFile_Click"/>
+                    <Label Content="Kacper Rygał&#xD;&#xA;Jakub Woźniak&#xD;&#xA;Wiktor Kobryń&#xD;&#xA;IPpp40" HorizontalAlignment="Right" Margin="0,0,44,37" VerticalAlignment="Bottom" Height="74" Width="91"/>
+                    <Button x:Name="btnLoadFile" Content="Wczytaj plik" HorizontalAlignment="Left" Margin="27,45,0,0" VerticalAlignment="Top" Height="27" Width="106" Click="btnLoadFile_Click"/>
                     <Label x:Name="lblDeltaTime" Content="Odstęp czasowy pomiarów: -" HorizontalAlignment="Left" Margin="80,105,0,0" VerticalAlignment="Top" Height="34" Width="200"/>
-                    <Button x:Name="btnSaveFile" Content="zapisz wyniki" HorizontalAlignment="Left" Margin="27,241,0,0" VerticalAlignment="Top" Height="27" Width="106" Click="btnSaveFile_Click"/>
+                    <Button x:Name="btnSaveFile" Content="Zapisz wyniki" HorizontalAlignment="Left" Margin="27,241,0,0" VerticalAlignment="Top" Height="27" Width="106" Click="btnSaveFile_Click"/>
                     <Label x:Name="lblDeltaTime_Kopiuj" Content="Odczyt danych z pliku .csv" HorizontalAlignment="Left" Margin="27,72,0,0" VerticalAlignment="Top" Height="33" Width="200"/>
                     <Label x:Name="lblDeltaTime_Kopiuj1" Content="Zapis znormalizowanych danych z wyznaczonych kanałów do pliku .csv" HorizontalAlignment="Left" Margin="27,273,0,0" VerticalAlignment="Top" Height="33" Width="404"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Wykresy surowe">
+            <TabItem Header="Wykresy surowe" Margin="0,2,-4,0">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -32,7 +32,7 @@
                     </Grid.RowDefinitions>
 
                     <lvc:CartesianChart Margin="10,10,10,10" Background="White" Name="chartRawData"/>
-                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="10" Orientation="Vertical" VerticalAlignment="Top">  
+                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="10" Orientation="Vertical" VerticalAlignment="Top">
                         <StackPanel Orientation="Horizontal" Margin="0,2">
                             <Rectangle x:Name="rectColor0" Width="12" Height="12" Stroke="Black" StrokeThickness="1"/>
                             <CheckBox x:Name="cbxData0" Content="Kanał 1" Margin="5,0,0,0" IsChecked="True"/>
@@ -65,19 +65,20 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
-            <TabItem HorizontalAlignment="Center" Height="22" Header="Wykresy bezwzględne" VerticalAlignment="Top" Width="143" Margin="0,-1,0,0">
+            <TabItem HorizontalAlignment="Left" Height="22" Header="Wykresy znormalizowane" VerticalAlignment="Top" Width="155" Margin="3,2,0,0">
                 <Grid Background="#FFE5E5E5" Margin="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="26*"/>
+                        <ColumnDefinition Width="31*"/>
+                        <ColumnDefinition Width="Auto" MinWidth="167"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto" MinHeight="30.04"/>
                     </Grid.RowDefinitions>
 
-                    <lvc:CartesianChart Grid.Row="0" Grid.Column="0" Name="chartNormalizedData" Margin="10" Background="White"/>
-                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="10" Orientation="Vertical" VerticalAlignment="Top">
+                    <lvc:CartesianChart Grid.Row="0" Grid.Column="0" Name="chartNormalizedData" Margin="10,10,10,10" Background="White" Grid.ColumnSpan="2"/>
+                    <StackPanel Grid.Row="0" Grid.Column="2" Margin="10,10,10,0" Orientation="Vertical" VerticalAlignment="Top" Height="115">
                         <StackPanel Orientation="Horizontal" Margin="0,2">
                             <Rectangle x:Name="rectReColor0" Width="12" Height="12" Stroke="Black" StrokeThickness="1"/>
                             <CheckBox x:Name="cbxReData0" Content="Kanał 1" Margin="5,0,0,0" IsChecked="True"/>
@@ -103,22 +104,22 @@
                             <CheckBox x:Name="cbxReData5" Content="Kanał 6" Margin="5,0,0,0" IsChecked="True"/>
                         </StackPanel>
                     </StackPanel>
-                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Margin="10" VerticalAlignment="Center">
+
+                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="10,0,0,0" VerticalAlignment="Center" Height="26" HorizontalAlignment="Left" Width="617" Orientation="Horizontal" Grid.ColumnSpan="2">
                         <Label Content="Odrzuć pomiary:" VerticalAlignment="Center"/>
                         <TextBox x:Name="txtReStartValue" Width="40" Margin="5,0" Text="0" PreviewTextInput="txtStartValue_PreviewTextInput" TextChanged="txtReStartValue_TextChanged"/>
-                        <Label x:Name="lblReStartTime" Content="(0 s)" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="10">
-                        <Label Content="Strefa od:" VerticalAlignment="Center"/>
-                        <TextBox x:Name="txtZoneLow" Width="40" Text="0.2"/>
-                        <Label Content="do:" VerticalAlignment="Center" Margin="5,0"/>
-                        <TextBox x:Name="txtZoneHigh" Width="40" Text="0.8"/>
-                        <Button x:Name="btnShowZones" Content="Pokaż granice" Margin="10,0,0,0" Click="btnShowZones_Click"/>
-                        <Button x:Name="btnHideZones" Content="Ukryj granice" Margin="10,0,0,0" Click="btnHideZones_Click"/>
+                        <Label x:Name="lblReStartTime" Content="(0 s)" VerticalAlignment="Center" />
+
+                        <Label Content="Strefa od:" VerticalAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Margin="50,0,0,0"/>
+                        <TextBox x:Name="txtZoneLow" Width="40" Text="0.2" HorizontalAlignment="Right"/>
+                        <Label Content="do:" VerticalAlignment="Center" Margin="5,0" HorizontalAlignment="Right"/>
+                        <TextBox x:Name="txtZoneHigh" Width="40" Text="0.8" HorizontalAlignment="Right"/>
+                        <Button x:Name="btnShowZones" Content="Pokaż granice" Margin="10,0,0,0" Click="btnShowZones_Click" HorizontalAlignment="Right"/>
+                        <Button x:Name="btnHideZones" Content="Ukryj granice" Margin="10,0,0,0" Click="btnHideZones_Click" HorizontalAlignment="Right"/>
                     </StackPanel>
                 </Grid>
             </TabItem>
-            <TabItem HorizontalAlignment="Center" Height="22" Header="Granice" VerticalAlignment="Center" Width="54">
+            <TabItem HorizontalAlignment="Center" Height="22" Header="Granice" VerticalAlignment="Top" Width="54" Margin="0,2,0,0">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -131,11 +132,12 @@
                     <DataGrid x:Name="dgZones" Grid.Row="0" Grid.Column="0" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" Margin="10">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Kanał" Binding="{Binding Channel}" Width="*"/>
-                            <DataGridTextColumn Header="Dolna granica"  Binding="{Binding Low}" Width="*"/>
-                            <DataGridTextColumn Header="Górna granica" Binding="{Binding High}" Width="*"/>
+                            <DataGridTextColumn Header="Dolna granica [%]"   Binding="{Binding Low}" Width="*"/>
+                            <DataGridTextColumn Header="Górna granica [%]" Binding="{Binding High}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <Button Grid.Row="1" Grid.Column="0" Content="Odśwież tabelę" Margin="10" Click="btnRefreshZones_Click"/>
+                    <TextBlock x:Name="noBoundriesTest" HorizontalAlignment="Center" Height="45" Margin="0,73,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="322" TextAlignment="Center"><Run Text="Brak wybranych granic."/><LineBreak/><Run Text="W zakładce &quot;Wykresy "/><Run Language="pl-pl" Text="znormalizowane"/><Run Text="&quot; zdefiniuj granicę"/></TextBlock>
                 </Grid>
             </TabItem>
         </TabControl>

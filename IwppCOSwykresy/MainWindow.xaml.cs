@@ -104,13 +104,13 @@ public partial class MainWindow : Window
                 UpdateRawChart();
                 UpdateNormalizedChart();
 
-
+                MessageBox.Show("Dane zostały odczytane poprawnie.", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            MessageBox.Show("Dane zostały odczytane poprawnie.", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
+           
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Błąd odczytu pliku: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Błąd odczytu pliku ", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
@@ -280,11 +280,15 @@ public partial class MainWindow : Window
         }
 
         chartNormalizedData.Series = allSeries;
+        chartNormalizedData.XAxes = [new Axis { Name = "Czas t [s]" }];
+        chartNormalizedData.YAxes = [new Axis { Name = "Stężenie [%]" }];
     }
 
     private void btnHideZones_Click(object sender, RoutedEventArgs e)
     {
         if (!isDataLoaded) return;
+
+        noBoundriesTest.Visibility = Visibility.Visible;
 
         zoneLow = null;
         zoneHigh = null;
@@ -294,6 +298,8 @@ public partial class MainWindow : Window
     private void btnShowZones_Click(object sender, RoutedEventArgs e)
     {
         if (!isDataLoaded) return;
+        
+
 
         if (!double.TryParse(txtZoneLow.Text.Replace(".", ","), out double low) ||
             !double.TryParse(txtZoneHigh.Text.Replace(".", ","), out double high) ||
@@ -302,7 +308,7 @@ public partial class MainWindow : Window
             MessageBox.Show("Dozwolony zakres granic to od 0 do 1", "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
-
+        noBoundriesTest.Visibility = Visibility.Collapsed;
         zoneLow = low;
         zoneHigh = high;
 
@@ -343,8 +349,14 @@ public partial class MainWindow : Window
 
             foreach (var  p in points)
             {
-                if (firstLow == null && p.Y > zoneLow.Value) firstLow = p.Y;
-                if (firstHigh == null && p.Y > zoneHigh.Value) firstHigh = p.Y;
+                if (firstLow == null &&  (p.Y >= zoneLow.Value || (Math.Abs((double)(p.Y - zoneLow.Value))) <= 0.001)) firstLow = p.Y;
+                if (firstHigh == null && (p.Y >= zoneHigh.Value || (Math.Abs((double)(p.Y - zoneHigh.Value)) <= 0.001))) firstHigh = p.Y;
+
+
+                //if (firstLow == null && (Math.Abs((double)(p.Y - zoneLow.Value)) <= 0.0001)) firstLow = p.Y;
+                //if (firstHigh == null && (Math.Abs((double)(p.Y - zoneHigh.Value)) <= 0.0001)) firstHigh = p.Y;
+
+
 
                 if (firstLow.HasValue && firstHigh.HasValue)
                     break;
@@ -381,22 +393,45 @@ public partial class MainWindow : Window
             {
                 using (var writer = new StreamWriter(saveFileDialog.FileName))
                 {
-                    writer.Write("Czas [s]");
+                    writer.Write("Nr");
+                    writer.Write(";Czas [s]");
                     for (int i = 0; i < seriesCountMax; i++)
                     {
                         if (isSeriesChosen[i])
                             writer.Write($";Kanał {i + 1}");
                     }
+                    for (int i = 0; i < seriesCountMax; i++)
+                    {
+                        if (isSeriesChosen[i])
+                            writer.Write($";Granica dolna kanału {i + 1}");
+                            writer.Write($";Granica górna kanału {i + 1}");
+                    }
+
                     writer.WriteLine();
 
+                    int nr = 0;
                     int length = rawData.time.Count;
                     for (int i = dataToViewStart; i < length; i++)
                     {
+                        writer.Write(++nr + ";");
                         writer.Write($"{rawData.time[i].ToString("0.###", CultureInfo.InvariantCulture)}");
                         for (int j = 0; j < seriesCountMax; j++)
                         {
                             if (isSeriesChosen[j])
                                 writer.Write($";{rawData.dataNormalizedSeries[j][i].ToString("0.###", CultureInfo.InvariantCulture)}");
+                        }
+                        if (nr == 1)
+                        {
+                            foreach (ZoneRow row in dgZones.Items)
+                            {
+                                if (double.TryParse(row.Low.Replace(",", "."), NumberStyles.Any, CultureInfo.InvariantCulture, out double dolna) &&
+                                    double.TryParse(row.High.Replace(",", "."), NumberStyles.Any, CultureInfo.InvariantCulture, out double gorna))
+                                {
+                                    // Możesz teraz używać granic:
+                                    writer.Write(";"+dolna);
+                                    writer.Write(";"+gorna);
+                                }
+                            }
                         }
                         writer.WriteLine();
                     }

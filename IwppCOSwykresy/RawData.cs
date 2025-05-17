@@ -8,6 +8,7 @@ using SkiaSharp;
 using System.Globalization;
 using System.IO;
 using System.Windows.Media;
+using System.Linq;
 
 namespace IwppCOSwykresy
 {
@@ -128,8 +129,14 @@ namespace IwppCOSwykresy
 
         public IEnumerable<ISeries> GenerateNormalizedSeries(int index, double pointSize, int startIndex, SKColor color)
         {
-            //dataNormalizedSeries.Clear();
-            var series = dataSeries[index];
+     
+           // var seriesRaw = dataSeries[index];
+
+          
+            var series = dataSeries[index].Skip(startIndex).ToList();
+
+
+
             int count = series.Count;
             if (count == 0) yield break;
 
