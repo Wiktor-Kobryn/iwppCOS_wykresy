@@ -148,7 +148,7 @@ public partial class MainWindow : Window
             otherCb.IsChecked = isChecked;
 
         int checkedCount = isSeriesChosen.Count(x => x);
-        if (checkedCount <= 2)
+        if (checkedCount <= 1)
         {
             for (int i = 0; i < seriesCountMax; i++)
             {
